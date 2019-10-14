@@ -2,23 +2,68 @@
 <html>
   <head>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+      th, td {
+        border: 1px solid #444444;
+        padding: 10px;
+      }
+      table:hover{
+        background: peachpuff;
+      }
+    </style>
   </head>
   <body>
+      <button class="gogo" style="padding: 10px;">Group Mix</button>
+
     <h1>서버 파트</h1>
-    <p><%= body %></p>
-    <table>
-      <tr>
-        <th>이름</th>
-        <th>나이</th>
-      </tr>
-      <tr>
-        <td>철수</td>
-        <td>23세</td>
-      </tr>
-      <tr>
-        <td>영희</td>
-        <td>21세</td>
-      </tr>
-    </table>
+    <div class="qwe" style="display: flex;justify-content:space-between;">
+      <% for(let j = 0; j< 6; j++){%>
+        <table onClick = "location.href='/api/group/<%= (j+1) %>'" style="border: 1px solid #444444;cursor:pointer;
+        border-collapse: collapse;">
+            <tr style="background: #CCFFFF;">
+              <th>조이름</th>
+              <th>이름</th>
+            </tr>
+            <% for(key in body[j]){%>
+              <tr>
+                <% if(key == 0) { %>
+                  <td rowspan= "<%= body[j].length %>" align = "center" bgcolor="<%= color[j] %>"><%= (j+1)%>조</td>              
+                <% } %>
+                <td class="<%= j %>"><%= body[j][key]["name"] %></td>
+              </tr>
+            <%}%>        
+            
+          </table>
+      <%}%>  
+    </div>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+    <script>        
+        $('.gogo').click(function(){
+          $.ajax({
+            url: '/api/',
+            method: 'GET',
+          }).done(function(data) {
+            console.log("."+data.body[0])
+            for (var i=0;i<6;i++) {
+              if (i == 0) {
+                for (var j=0;j<6;j++) {
+                  $('.0').eq(j).text(data.body[i][j]["name"])
+                }
+              }else{
+                for (var j=0;j<7;j++) {
+                  $('.'+i).eq(j).text(data.body[i][j]["name"])
+                }
+              }
+            }
+          }).fail(function(xhr,status,error) {
+            console.log(error)
+          })
+        });
+        
+    </script>
+    
   </body>
 </html>

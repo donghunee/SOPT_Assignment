@@ -1,9 +1,21 @@
 var express = require('express');
 var router = express.Router();
-const csv = require('csvtojson')
 const json2csv = require('json2csv')
+const csv = require('csvtojson')
+
 /* GET home page. */
 const fs = require('fs')
+
+
+const memberColor = [
+  "#6633FF",
+  "#00FF33",
+  "#FF99FF",
+  "#FF6666",
+  "#CCFF99",
+  "#0066CC"
+]
+
 router.get('/group', function(req, res, next) {
 
   csv().fromFile('./public/csv/members.csv').then((jsonArr) => {
@@ -12,9 +24,19 @@ router.get('/group', function(req, res, next) {
     console.log(`file read err: ${err}`);
     return;
     }
+    var result = []
+    for (var i=1;i<7;i++) {
+      var init = []
+      for (key in jsonArr) {
+        if (jsonArr[key]["groupIdx"] == String(i)) {
+          init.push(jsonArr[key])
+        }
+      }
+      result.push(init)
+    }
+    console.log(result[0])
 
-    console.log(jsonArr);
-    res.render('index', { body: JSON.stringify(jsonArr)});
+    res.render('index', { body: result, color:memberColor});
   
     return jsonArr
     }, (err) => {
@@ -40,8 +62,9 @@ router.get('/group/:groupIdx',function(req, res, next) {
       for(var key in groupArr) {
         if(req.params.groupIdx == groupArr[key]['groupIdx']){
           idx = groupArr[key]['name']
+          console.log(result)
           console.log(idx)
-          res.render('index', { body: JSON.stringify(result), idx:idx});
+          res.render('detail', { body: result, idx:idx, color:memberColor[key]});
         }
       }
     })
@@ -60,7 +83,6 @@ router.get('/',function(req, res){
     console.log(`file read err: ${err}`);
     return;
     }
-    console.log(jsonArr);
     member = []
     for(var key in jsonArr) {
         member.push(jsonArr[key]["name"])
@@ -75,7 +97,21 @@ router.get('/',function(req, res){
     }
     const resultCsv = json2csv.parse(jsonArr)
     fs.writeFileSync('./public/csv/members.csv', resultCsv);
-    res.render('index', { body: JSON.stringify(jsonArr)});
+
+    var result = []
+    for (var i=1;i<7;i++) {
+      var init = []
+      for (key in jsonArr) {
+        if (jsonArr[key]["groupIdx"] == String(i)) {
+          init.push(jsonArr[key])
+        }
+      }
+      result.push(init)
+    }
+    console.log(result)
+
+
+    res.json({ body: result});
   
     return jsonArr
     }, (err) => {
