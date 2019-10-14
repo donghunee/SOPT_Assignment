@@ -11,3 +11,11 @@
 
 
 - 라우팅 관련 소스 파일 :  [1주차 과제](https://github.com/donghunee/SOPT_Assignment/tree/master/Week1)
+
+---
+
+## 2주차 과제
+
+- Node.js 정리 : [Node.js에 대하여](https://serene-oasis-25380.herokuapp.com/api/group/)
+
+- 세미나 조 등록/조회/변경 페이지 : [세미나 페이지 링크](https://serene-oasis-25380.herokuapp.com/api/group/)
