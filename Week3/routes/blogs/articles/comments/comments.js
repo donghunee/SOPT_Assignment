@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/:idx/articles', function(req, res, next) {
+router.get('/:idx/comments', function(req, res, next) {
 
   var idx = req.params.idx
   console.log(idx)
-  var mysqlDB = require('../../../mysql-db');
-  mysqlDB.query(`select * from article where blog_id = '${idx}'`, function (err, rows, fields) {
+  var mysqlDB = require('../../../../mysql-db');
+  mysqlDB.query(`select * from comment where article_id = '${idx}'`, function (err, rows, fields) {
     if (!err) {
         res.send(rows);
     } else {
@@ -17,7 +17,7 @@ router.get('/:idx/articles', function(req, res, next) {
   });
 });
 
-router.post('/:idx/articles', function(req, res, next) {
+router.post('/:idx/comments', function(req, res, next) {
   
   var idx = req.params.idx
   console.log(idx)
@@ -25,9 +25,9 @@ router.post('/:idx/articles', function(req, res, next) {
     title
   } = req.body
 
-  var mysqlDB = require('../../../mysql-db')
+  var mysqlDB = require('../../../../mysql-db')
 
-  mysqlDB.query(`insert into article (title,blog_id) value ('${title}',${idx})`, function (err, result) {
+  mysqlDB.query(`insert into comment (comment,article_id) value ('${title}',${idx})`, function (err, result) {
     if (!err) {
         res.send(result);
     } else {
@@ -41,7 +41,7 @@ router.post('/:idx/articles', function(req, res, next) {
 
 
 
-router.put('/:idx/articles', function(req, res, next) {
+router.put('/:idx/comments', function(req, res, next) {
 
   var idx = req.params.idx
 
@@ -51,7 +51,7 @@ router.put('/:idx/articles', function(req, res, next) {
   } = req.body
 
   var mysqlDB = require('../../../mysql-db');
-  mysqlDB.query(`update article set title = '${title}' where blog_id = ${idx} and title = '${pre}' `, function (err, result) {
+  mysqlDB.query(`update comment set title = '${title}' where article_id = ${idx} and comment = '${pre}' `, function (err, result) {
     if (!err) {
         res.send(result);
     } else {
@@ -61,7 +61,7 @@ router.put('/:idx/articles', function(req, res, next) {
   });
 });
 
-router.delete('/:idx/articles', function(req, res, next) {
+router.delete('/:idx/comments', function(req, res, next) {
   var idx = req.params.idx
   
   var {
@@ -69,7 +69,7 @@ router.delete('/:idx/articles', function(req, res, next) {
   } = req.body
 
   var mysqlDB = require('../../../mysql-db')
-  mysqlDB.query(`delete from article where blog_id = ${idx} and title = '${title}'`, function (err, result) {
+  mysqlDB.query(`delete from comment where article_id = ${idx} and title = '${title}'`, function (err, result) {
     if (!err) {
         res.send(result);
     } else {

@@ -5,8 +5,8 @@ var mysql = require('mysql')
 var connection = mysql.createConnection({
   host: "db-sopt-server.cj1bwtnddwit.ap-northeast-2.rds.amazonaws.com",
   user: "admin",
-  password: "",
-  database: ""
+  password: "ehdgns2797",
+  database: "sopt"
 });
 
 module.exports = connection
