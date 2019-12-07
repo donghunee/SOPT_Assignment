@@ -5,7 +5,7 @@ const authUtil = require('../module/authUtil')
 아래 infoMap은 DB에 적용하기 이전에 임시 변수입니다.
 즉 require 요청한 블록에 생성됩니다.
 */
-const boardDB = [{
+const blogDB = [{
   title: 'sopt',
   content: 'hello',
   writer: '솝트',

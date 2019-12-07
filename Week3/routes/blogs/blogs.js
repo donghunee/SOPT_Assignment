@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+
 /* GET home page. */
 router.get('/blogs', function(req, res, next) {
   var mysqlDB = require('../../mysql-db');
@@ -32,7 +33,6 @@ router.post('/blogs', function(req, res, next) {
     }
   });
 });
-
 
 
 router.put('/blogs', function(req, res, next) {
